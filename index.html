@@ -102,6 +102,29 @@
       background: #00ff00;
       color: black;
     }
+
+    .watermark {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 12px;
+      color: #555;
+      display: flex;
+      align-items: center;
+    }
+
+    .watermark span {
+      margin-left: 5px;
+    }
+
+    .whatsapp-icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -115,6 +138,13 @@
     <button class="btn btn-secondary" onclick="comprarLogin()">Comprar Login</button>
     <p id="error-message" class="error-message" style="display: none;">Usuário inválido ou tempo expirado!</p>
   </div>
+
+  <div class="watermark">
+    <span>© 2025 JM Developer</span>
+  </div>
+  <a href="https://wa.me/5565996904319" target="_blank">
+    <img class="whatsapp-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </a>
 
   <script>
     const users = {
@@ -135,27 +165,22 @@
           const timeRemaining = user.duration - (currentTime - lastLogin);
 
           if (timeRemaining > 0) {
-            // Tempo ainda válido, redireciona para a tela de injeção
             window.location.href = "processo_injecao.html";
           } else {
-            // Tempo expirado
-            localStorage.removeItem(username); // Remover o login expirado
+            localStorage.removeItem(username);
             errorMessage.textContent = "Seu tempo expirou! Compre mais tempo.";
             errorMessage.style.display = "block";
           }
         } else {
-          // Caso ainda não tenha feito login, o usuário faz login e o tempo é salvo
           localStorage.setItem(username, currentTime);
           window.location.href = "processo_injecao.html";
         }
       } else {
-        // Usuário inválido
         errorMessage.style.display = "block";
       }
     }
 
     function comprarLogin() {
-      // Redireciona para a página de compra
       window.location.href = "pagina_compra.html";
     }
   </script>
