@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra de Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #000000, #1a1a1a);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .compra-container {
+      background: #121212;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 350px;
+    }
+
+    .compra-container h1 {
+      margin-bottom: 20px;
+      color: #00ff00;
+      font-size: 24px;
+    }
+
+    .opcao {
+      background: #1a1a1a;
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+      color: white;
+      text-align: left;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .opcao:hover {
+      background: #00ff00;
+      color: black;
+    }
+
+    .opcao h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .opcao p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+
+    .btn-back:hover {
+      background: #00ff00;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="compra-container">
+    <h1>Escolha sua Assinatura</h1>
+
+    <div class="opcao" onclick="comprar('10 dias', 10)">
+      <h2>10 Dias - R$10,00</h2>
+      <p>Acesso por 10 dias com todos os benefícios.</p>
+    </div>
+
+    <div class="opcao" onclick="comprar('30 dias', 10)">
+      <h2>30 Dias - R$10,00 (Teste)</h2>
+      <p>Teste especial de 30 dias pelo mesmo valor.</p>
+    </div>
+
+    <!-- Botão para voltar à tela de login -->
+    <button class="btn-back" onclick="voltar()">Voltar</button>
+  </div>
+
+  <script>
+    function comprar(opcao, valor) {
+      const numeroWhatsApp = "65996904319";
+      const mensagem = `Olá, gostaria de adquirir a assinatura de ${opcao} por R$${valor}, por favor me informe os próximos passos.`;
+      const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+
+      // Redireciona para o WhatsApp com a mensagem
+      window.location.href = url;
+    }
+
+    // Função para voltar à tela de login
+    function voltar() {
+      window.location.href = "index.html"; // Redireciona para index.html
+    }
+  </script>
+</body>
+</html>

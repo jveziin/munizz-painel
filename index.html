@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Munizz Painel</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #000000, #1a1a1a);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: #121212;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 300px;
+    }
+
+    .login-container h1 {
+      margin-bottom: 20px;
+      color: #00ff00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-container input {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #00ff00;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-container label {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #aaa;
+      pointer-events: none;
+      transition: 0.2s;
+    }
+
+    .input-container input:focus + label,
+    .input-container input:not(:placeholder-shown) + label {
+      top: -5px;
+      font-size: 12px;
+      color: #00ff00;
+    }
+
+    .btn {
+      width: 150px;
+      padding: 8px;
+      background: #00ff00;
+      border: none;
+      border-radius: 8px;
+      color: black;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 10px auto;
+      display: block;
+    }
+
+    .btn:hover {
+      background: #00cc00;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      font-size: 14px;
+    }
+
+    .btn-secondary:hover {
+      background: #00ff00;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Munizz Painel <i>👨🏿‍💻</i></h1>
+    <div class="input-container">
+      <input type="text" id="username" placeholder=" " required />
+      <label for="username">Usuário</label>
+    </div>
+    <button class="btn" onclick="login()">Entrar</button>
+    <button class="btn btn-secondary" onclick="comprarLogin()">Comprar Login</button>
+    <p id="error-message" class="error-message" style="display: none;">Usuário inválido ou tempo expirado!</p>
+  </div>
+
+  <script>
+    const users = {
+      "jveziin": { mode: "temporary", duration: 500 * 60 * 1000 },  // 5 minutos
+    };
+
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const errorMessage = document.getElementById("error-message");
+
+      if (users[username]) {
+        const user = users[username];
+        const lastLogin = localStorage.getItem(username);
+        const currentTime = Date.now();
+
+        if (lastLogin) {
+          const timeRemaining = user.duration - (currentTime - lastLogin);
+
+          if (timeRemaining > 0) {
+            // Tempo ainda válido, redireciona para a tela de injeção
+            window.location.href = "processo_injecao.html";
+          } else {
+            // Tempo expirado
+            localStorage.removeItem(username); // Remover o login expirado
+            errorMessage.textContent = "Seu tempo expirou! Compre mais tempo.";
+            errorMessage.style.display = "block";
+          }
+        } else {
+          // Caso ainda não tenha feito login, o usuário faz login e o tempo é salvo
+          localStorage.setItem(username, currentTime);
+          window.location.href = "processo_injecao.html";
+        }
+      } else {
+        // Usuário inválido
+        errorMessage.style.display = "block";
+      }
+    }
+
+    function comprarLogin() {
+      // Redireciona para a página de compra
+      window.location.href = "pagina_compra.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Munizz injector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: #00ff00;
+      font-family: "Courier New", Courier, monospace;
+      overflow: auto;
+    }
+
+    #terminal {
+      white-space: pre-wrap;
+      font-size: 16px;
+      padding: 20px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .model-heading {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .user-info {
+      font-size: 12px;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      color: #00ff00;
+      z-index: 999;
+    }
+
+    .input-field {
+      margin-bottom: 15px;
+      text-align: center;
+      color: #00ff00;
+      font-size: 16px;
+      padding-top: 20%;
+    }
+
+    .input-field input {
+      width: 250px;
+      padding: 12px 15px;
+      border: 2px solid #00ff00;
+      background-color: black;
+      color: #00ff00;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .input-field input:focus {
+      border-color: #00cc00;
+      outline: none;
+      box-shadow: 0 0 8px #00ff00;
+    }
+
+    .input-field button {
+      background-color: black;
+      color: #00ff00;
+      padding: 12px 20px;
+      border: 2px solid #00ff00;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .input-field button:hover {
+      background-color: #00ff00;
+      color: black;
+    }
+
+    .hide {
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="input-field" id="input-field">
+    <label for="device-model">Digite o modelo do seu celular:</label>
+    <input type="text" id="device-model" placeholder="Ex: Galaxy S20" />
+    <button id="start-button" onclick="startProcess()">Iniciar</button>
+  </div>
+
+  <div class="user-info" id="user-info" class="hide">
+    <p><strong>Usuário:</strong> <span id="user-name"></span></p>
+    <p><strong>Tempo:</strong> <span id="expiry-time"></span></p>
+  </div>
+
+  <div id="terminal" class="hide"></div>
+
+  <script>
+    let deviceModel = '';
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get("user");
+    const expiry = params.get("expiry");
+
+    function startProcess() {
+      deviceModel = document.getElementById("device-model").value.trim();
+      if (deviceModel === '') {
+        alert('Por favor, insira o modelo do celular.');
+        return;
+      }
+
+      // Exibe as informações do usuário e esconde a entrada
+      document.getElementById("user-name").textContent = user;
+      let expiryMessage = expiry === "indefinite" ? "Sem limite de tempo" : `${Math.floor(expiry / (1000 * 60))} minutos restantes`;
+      document.getElementById("expiry-time").textContent = expiryMessage;
+
+      document.getElementById("input-field").classList.add("hide");
+      document.getElementById("user-info").classList.remove("hide");
+      document.getElementById("terminal").classList.remove("hide");
+
+      // Inicia a execução do processo diretamente sem a barra de progresso
+      runCommands();  
+    }
+
+    const commands = [
+      "Inicializando sistema...",
+      "Achando melhor configuração para o seu dispositivo...",
+      "Carregando ativos...",
+      "Conectando ao servidor...",
+      "Enviando dados...",
+      "Criptografando arquivos...",
+      "Burlando conexão com a Garena...",
+      "Injetando módulo antiban...",
+      "Injetando aim_assist.module...",
+      "Injetando no_recoil.module...",
+      "Injetando auto_assist.module...",
+      "Injetando dpi_injection.module...",
+      "Finalizando processo...",
+      "Concluído! IP seguro",
+      "Gerando configurações de sensibilidade do Free Fire..."
+    ];
+
+    function typeCommand(command, speed) {
+      return new Promise((resolve) => {
+        const terminal = document.getElementById("terminal");
+        let index = 0;
+        const interval = setInterval(() => {
+          terminal.textContent += command[index];
+          index++;
+          if (index === command.length) {
+            clearInterval(interval);
+            terminal.textContent += "\n";
+            resolve();
+          }
+        }, speed);
+      });
+    }
+
+    async function runCommands() {
+      const terminal = document.getElementById("terminal");
+
+      terminal.textContent += "> Login feito com sucesso!\n";
+      await typeCommand(`Modelo do celular: ${deviceModel}`, 35);  // Velocidade ajustada
+      await simulateDelay();
+
+      for (let i = 0; i < commands.length; i++) {
+        await typeCommand("> " + commands[i], 35);  // Velocidade ajustada
+
+        if (commands[i] === "Gerando configurações de sensibilidade do Free Fire...") {
+          const sensibilidade = generateRandomSensitivity();
+          await typeCommand(`> Sensibilidade configurada: ${sensibilidade}`, 35);
+          await typeCommand(`> Red Dot: ${generateRandomSensitivity()}`, 35);
+          await typeCommand(`> 2x Scope: ${generateRandomSensitivity()}`, 35);
+          await typeCommand(`> 4x Scope: ${generateRandomSensitivity()}`, 35);
+          await typeCommand(`> AWM Scope: ${generateRandomSensitivity()}`, 35);
+          await typeCommand(`> Free Look: ${generateRandomSensitivity()}`, 35);
+
+          // Frase de agradecimento após as configurações
+          await typeCommand("> Configurações geradas com sucesso. Obrigado por usar o nosso painel!", 35);
+        }
+      }
+    }
+
+    function generateRandomSensitivity() {
+      return Math.floor(Math.random() * (199 - 99 + 1)) + 99; // Sensibilidade entre 99 e 199
+    }
+
+    function simulateDelay() {
+      return new Promise((resolve) => setTimeout(resolve, 3000));
+    }
+  </script>
+</body>
+</html>
