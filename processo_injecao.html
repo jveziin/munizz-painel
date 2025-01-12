@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Munizz injector</title>
+  <title>Simulador de Hack</title>
   <style>
     body {
       margin: 0;
@@ -86,6 +86,12 @@
       display: none;
     }
 
+    .download-link {
+      color: #00ff00;
+      font-size: 16px;
+      margin-top: 20px;
+      display: none; /* Inicialmente oculto */
+    }
   </style>
 </head>
 <body>
@@ -101,6 +107,11 @@
   </div>
 
   <div id="terminal" class="hide"></div>
+
+  <!-- Link para baixar o arquivo -->
+  <div class="download-link" id="download-link">
+    <a href="#" id="download-file" download="dns_freefire.config">Clique aqui para baixar o arquivo de configuração</a>
+  </div>
 
   <script>
     let deviceModel = '';
@@ -181,8 +192,8 @@
           await typeCommand(`> AWM Scope: ${generateRandomSensitivity()}`, 35);
           await typeCommand(`> Free Look: ${generateRandomSensitivity()}`, 35);
 
-          // Frase de agradecimento após as configurações
-          await typeCommand("> Configurações geradas com sucesso. Obrigado por usar o nosso painel!", 35);
+          // Exibe o link para o download
+          showDownloadLink();
         }
       }
     }
@@ -193,6 +204,90 @@
 
     function simulateDelay() {
       return new Promise((resolve) => setTimeout(resolve, 3000));
+    }
+
+    function showDownloadLink() {
+      const downloadLink = document.getElementById("download-link");
+      const downloadFile = document.getElementById("download-file");
+      
+      // Conteúdo fictício do arquivo de configuração com várias opções
+      const fileContent = `
+        # Arquivo de configuração do Free Fire
+        Sensibilidade configurada: ${generateRandomSensitivity()}
+        Red Dot: ${generateRandomSensitivity()}
+        2x Scope: ${generateRandomSensitivity()}
+        4x Scope: ${generateRandomSensitivity()}
+        AWM Scope: ${generateRandomSensitivity()}
+        Free Look: ${generateRandomSensitivity()}
+        
+        # Configurações adicionais
+        aimlock_enabled: true
+        aimlock_sensitivity: 85
+        aimlock_strength: 100
+        aim_assist_enabled: true
+        no_recoil_enabled: true
+        auto_shoot_enabled: false
+        antiban_module_enabled: true
+        speedhack_enabled: false
+        speedhack_value: 1.25
+        visual_settings: high
+        texture_quality: ultra
+        server_region: BR
+        bypass_firewall: true
+        
+        # Segurança
+        ip_address: ${generateRandomIP()}
+        vpn_enabled: true
+        proxy_enabled: true
+        encryption_level: high
+        bypass_injection: true
+
+        # Novos parâmetros
+        anti_cheat_module: true
+        wallhack_enabled: false
+        rapid_fire: true
+        bullet_speed: 1.5
+        recoil_strength: 0.25
+        headshot_multiplier: 2.0
+        crosshair_color: #FF0000
+        server_bypass_level: 3
+        aimbot_fov: 90
+        speed_multiplier: 1.1
+      `;
+
+      // Conteúdo do tutorial
+      const tutorialContent = `
+        Tutorial de instalação:
+        
+        1. Baixe o arquivo "dns_freefire.config".
+        2. Localize a pasta onde o Free Fire está instalado.
+        3. Dentro da pasta de instalação do Free Fire, localize a pasta chamada "data".
+        4. Coloque o arquivo "dns_freefire.config" dentro da pasta "data".
+        5. Abra o Free Fire e as configurações serão aplicadas automaticamente.
+
+        Caso tenha dificuldades, entre em contato com o suporte.
+      `;
+
+      const configBlob = new Blob([fileContent], { type: 'text/plain' });
+      const tutorialBlob = new Blob([tutorialContent], { type: 'text/plain' });
+
+      const configURL = URL.createObjectURL(configBlob);
+      const tutorialURL = URL.createObjectURL(tutorialBlob);
+
+      downloadFile.href = configURL;
+      const tutorialLink = document.createElement('a');
+      tutorialLink.href = tutorialURL;
+      tutorialLink.download = 'tutorial.txt';
+      tutorialLink.textContent = 'Clique aqui para baixar o tutorial de instalação';
+
+      // Adiciona o link do tutorial
+      document.body.appendChild(tutorialLink);
+
+      downloadLink.style.display = 'block'; // Exibe o link de download
+    }
+
+    function generateRandomIP() {
+      return `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
     }
   </script>
 </body>
